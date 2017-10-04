@@ -10,6 +10,8 @@ DEBUG_PROCESS = 0x00000001
 
 
 class debugger():
+    
+    
     def _init_(self): 
         self.h_process = None
         
@@ -44,7 +46,8 @@ class debugger():
  
         else:
             print "[*] Error: 0x%08x." % kernel32.GetLastError() 
-            
+      
+    
     def open_process(self,pid):
         
         h_process =kernel32.OpenProcess( PROCESS_ALL_ACCESS, False, pid)
@@ -65,7 +68,8 @@ class debugger():
             
         else:
             print "[*] Unable to attach to the process [%d] - %s" % (int(pid), FormatError(kernel32.GetLastError()))
-            
+       
+    
     def run(self):
         
         while self.debugger_active == True:
