@@ -6,10 +6,12 @@ kernel32 = windll.kernel32
 
 class debugger():
     
+    # Constructor
     def _init_(self): 
         pass
  
-    def load(self,path_to_exe):
+    # Run executable with path given
+    def load(self, path_to_exe):
         
         # Constant from my_debugger_defines
         creation_flags = DEBUG_PROCESS
