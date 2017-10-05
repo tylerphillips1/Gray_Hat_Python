@@ -1,9 +1,7 @@
 from ctypes import *
 from my_debugger_defines import *
 
-from _subprocess import INFINITE
-
-
+#
 kernel32 = windll.kernel32
 PROCESS_ALL_ACCESS = (0x000F0000L | 0x00100000L | 0xFFF)
 DEBUG_PROCESS = 0x00000001
@@ -11,17 +9,15 @@ DEBUG_PROCESS = 0x00000001
 
 class debugger():
     
-    
+    # Constructor for getting process ID
     def _init_(self): 
         self.h_process = None
-        
         self.debugger_active = False
         process_information = PROCESS_INFORMATION()
         self.pid = process_information.dwProcessId
 
-        
-    def load(self,path_to_exe):
-        
+    # 
+    def load(self, path_to_exe):
         creation_flags = DEBUG_PROCESS
         startupinfo = STARTUPINFO()
         process_information = PROCESS_INFORMATION()
@@ -42,25 +38,18 @@ class debugger():
             print "[*] We have successfully launched the process!"
             print "[*] PID: %d" % process_information.dwProcessId
             self.h_process = self.open_process(process_information.dwProcessId)
-            
- 
         else:
             print "[*] Error: 0x%08x." % kernel32.GetLastError() 
       
     
-    def open_process(self,pid):
-        
+    def open_process(self, pid):
         h_process =kernel32.OpenProcess( PROCESS_ALL_ACCESS, False, pid)
         return h_process
     
     
     def attach(self,pid):
-        
-        
         self.h_process = self.open_process(pid)
-        
-        
-        
+         
         if kernel32.DebugActiveProcess(pid):
             self.debugger_active = True
             self.pid             = int(pid)
@@ -70,8 +59,7 @@ class debugger():
             print "[*] Unable to attach to the process [%d] - %s" % (int(pid), FormatError(kernel32.GetLastError()))
        
     
-    def run(self):
-        
+    def run(self):  
         while self.debugger_active == True:
             self.get_debug_event()
             
@@ -80,7 +68,7 @@ class debugger():
         debug_event = DEBUG_EVENT()
         continue_status = DBG_CONTINUE
         
-        if kernel32.WaitForDebugEvent(byref(debug_event),INFINITE):
+        if kernel32.WaitForDebugEvent(byref(debug_event), INFINITE):
             
             raw_input("Press a key to continue...")
             
