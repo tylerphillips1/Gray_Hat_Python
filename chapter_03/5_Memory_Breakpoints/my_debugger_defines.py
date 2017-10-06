@@ -1,43 +1,42 @@
-
+# ctypes allows us to call functions in dll's and has capabilities for creating 
+# complex C datatypes and functions for low-level memory manipulations.
 from ctypes import *
 
-# Let's map the Microsoft types to ctypes for clarity
-BYTE      = c_ubyte
-WORD      = c_ushort
-DWORD     = c_ulong
-LPBYTE    = POINTER(c_ubyte)
-LPTSTR    = POINTER(c_char) 
-HANDLE    = c_void_p
-PVOID     = c_void_p
-LPVOID    = c_void_p
-UINT_PTR  = c_ulong
-SIZE_T    = c_ulong
+# Let's map the Microsoft types to ctypes for clarity      
+BYTE     = c_ubyte
+WORD     = c_ushort
+DWORD    = c_ulong
+LPBYTE   = POINTER(c_ubyte)
+LPTSTR   = POINTER(c_char) 
+HANDLE   = c_void_p
+PVOID    = c_void_p
+LPVOID   = c_void_p
+UINT_PTR = c_ulong
+SIZE_T   = c_ulong
 
-# Constants
-DEBUG_PROCESS         = 0x00000001
-CREATE_NEW_CONSOLE    = 0x00000010
-PROCESS_ALL_ACCESS    = 0x001F0FFF
-INFINITE              = 0xFFFFFFFF
-DBG_CONTINUE          = 0x00010002
-
+# Constants, defined by Windows
+DEBUG_PROCESS      = 0x00000001
+CREATE_NEW_CONSOLE = 0x00000010
+PROCESS_ALL_ACCESS = 0x001F0FFF
+INFINITE           = 0xFFFFFFFF
+DBG_CONTINUE       = 0x00010002
 
 # Debug event constants
-EXCEPTION_DEBUG_EVENT      =    0x1
-CREATE_THREAD_DEBUG_EVENT  =    0x2
-CREATE_PROCESS_DEBUG_EVENT =    0x3
-EXIT_THREAD_DEBUG_EVENT    =    0x4
-EXIT_PROCESS_DEBUG_EVENT   =    0x5
-LOAD_DLL_DEBUG_EVENT       =    0x6
-UNLOAD_DLL_DEBUG_EVENT     =    0x7
-OUTPUT_DEBUG_STRING_EVENT  =    0x8
-RIP_EVENT                  =    0x9
+EXCEPTION_DEBUG_EVENT      = 0x1
+CREATE_THREAD_DEBUG_EVENT  = 0x2
+CREATE_PROCESS_DEBUG_EVENT = 0x3
+EXIT_THREAD_DEBUG_EVENT    = 0x4
+EXIT_PROCESS_DEBUG_EVENT   = 0x5
+LOAD_DLL_DEBUG_EVENT       = 0x6
+UNLOAD_DLL_DEBUG_EVENT     = 0x7
+OUTPUT_DEBUG_STRING_EVENT  = 0x8
+RIP_EVENT                  = 0x9
 
 # debug exception codes.
 EXCEPTION_ACCESS_VIOLATION     = 0xC0000005
 EXCEPTION_BREAKPOINT           = 0x80000003
 EXCEPTION_GUARD_PAGE           = 0x80000001
 EXCEPTION_SINGLE_STEP          = 0x80000004
-
 
 # Thread constants for CreateToolhelp32Snapshot()
 TH32CS_SNAPHEAPLIST = 0x00000001
@@ -98,9 +97,8 @@ class STARTUPINFO(Structure):
         ("hStdError",     HANDLE),
         ]
 
-# PROCESS_INFORMATION receives its information
-# after the target process has been successfully
-# started.
+# PROCESS_INFORMATION receives its information after 
+# the target process has been successfully started.
 class PROCESS_INFORMATION(Structure):
     _fields_ = [
         ("hProcess",    HANDLE),
