@@ -33,10 +33,10 @@ OUTPUT_DEBUG_STRING_EVENT  = 0x8
 RIP_EVENT                  = 0x9
 
 # debug exception codes.
-EXCEPTION_ACCESS_VIOLATION     = 0xC0000005
-EXCEPTION_BREAKPOINT           = 0x80000003
-EXCEPTION_GUARD_PAGE           = 0x80000001
-EXCEPTION_SINGLE_STEP          = 0x80000004
+EXCEPTION_ACCESS_VIOLATION = 0xC0000005
+EXCEPTION_BREAKPOINT       = 0x80000003
+EXCEPTION_GUARD_PAGE       = 0x80000001
+EXCEPTION_SINGLE_STEP      = 0x80000004
 
 # Thread constants for CreateToolhelp32Snapshot()
 TH32CS_SNAPHEAPLIST = 0x00000001
@@ -48,53 +48,53 @@ TH32CS_SNAPALL      = (TH32CS_SNAPHEAPLIST | TH32CS_SNAPPROCESS | TH32CS_SNAPTHR
 THREAD_ALL_ACCESS   = 0x001F03FF
 
 # Context flags for GetThreadContext()
-CONTEXT_FULL                   = 0x00010007
-CONTEXT_DEBUG_REGISTERS        = 0x00010010
+CONTEXT_FULL            = 0x00010007
+CONTEXT_DEBUG_REGISTERS = 0x00010010
 
 # Memory permissions
-PAGE_EXECUTE_READWRITE         = 0x00000040
+PAGE_EXECUTE_READWRITE = 0x00000040
 
 # Hardware breakpoint conditions
-HW_ACCESS                      = 0x00000003
-HW_EXECUTE                     = 0x00000000
-HW_WRITE                       = 0x00000001
+HW_ACCESS  = 0x00000003
+HW_EXECUTE = 0x00000000
+HW_WRITE   = 0x00000001
 
 # Memory page permissions, used by VirtualProtect()
-PAGE_NOACCESS                  = 0x00000001
-PAGE_READONLY                  = 0x00000002
-PAGE_READWRITE                 = 0x00000004
-PAGE_WRITECOPY                 = 0x00000008
-PAGE_EXECUTE                   = 0x00000010
-PAGE_EXECUTE_READ              = 0x00000020
-PAGE_EXECUTE_READWRITE         = 0x00000040
-PAGE_EXECUTE_WRITECOPY         = 0x00000080
-PAGE_GUARD                     = 0x00000100
-PAGE_NOCACHE                   = 0x00000200
-PAGE_WRITECOMBINE              = 0x00000400
+PAGE_NOACCESS          = 0x00000001
+PAGE_READONLY          = 0x00000002
+PAGE_READWRITE         = 0x00000004
+PAGE_WRITECOPY         = 0x00000008
+PAGE_EXECUTE           = 0x00000010
+PAGE_EXECUTE_READ      = 0x00000020
+PAGE_EXECUTE_READWRITE = 0x00000040
+PAGE_EXECUTE_WRITECOPY = 0x00000080
+PAGE_GUARD             = 0x00000100
+PAGE_NOCACHE           = 0x00000200
+PAGE_WRITECOMBINE      = 0x00000400
 
 
 # Structures for CreateProcessA() function
 # STARTUPINFO describes how to spawn the process
 class STARTUPINFO(Structure):
     _fields_ = [
-        ("cb",            DWORD),        
-        ("lpReserved",    LPTSTR), 
-        ("lpDesktop",     LPTSTR),  
-        ("lpTitle",       LPTSTR),
-        ("dwX",           DWORD),
-        ("dwY",           DWORD),
-        ("dwXSize",       DWORD),
-        ("dwYSize",       DWORD),
-        ("dwXCountChars", DWORD),
-        ("dwYCountChars", DWORD),
-        ("dwFillAttribute",DWORD),
-        ("dwFlags",       DWORD),
-        ("wShowWindow",   WORD),
-        ("cbReserved2",   WORD),
-        ("lpReserved2",   LPBYTE),
-        ("hStdInput",     HANDLE),
-        ("hStdOutput",    HANDLE),
-        ("hStdError",     HANDLE),
+        ("cb",              DWORD),        
+        ("lpReserved",      LPTSTR), 
+        ("lpDesktop",       LPTSTR),  
+        ("lpTitle",         LPTSTR),
+        ("dwX",             DWORD),
+        ("dwY",             DWORD),
+        ("dwXSize",         DWORD),
+        ("dwYSize",         DWORD),
+        ("dwXCountChars",   DWORD),
+        ("dwYCountChars",   DWORD),
+        ("dwFillAttribute", DWORD),
+        ("dwFlags",         DWORD),
+        ("wShowWindow",     WORD),
+        ("cbReserved2",     WORD),
+        ("lpReserved2",     LPBYTE),
+        ("hStdInput",       HANDLE),
+        ("hStdOutput",      HANDLE),
+        ("hStdError",       HANDLE),
         ]
 
 # PROCESS_INFORMATION receives its information after 
@@ -133,14 +133,14 @@ class _EXCEPTION_RECORD(Structure):
 # Exceptions
 class EXCEPTION_DEBUG_INFO(Structure):
     _fields_ = [
-        ("ExceptionRecord",    EXCEPTION_RECORD),
-        ("dwFirstChance",      DWORD),
+        ("ExceptionRecord", EXCEPTION_RECORD),
+        ("dwFirstChance",   DWORD),
         ]
 
 # it populates this union appropriately
 class DEBUG_EVENT_UNION(Union):
     _fields_ = [
-        ("Exception",         EXCEPTION_DEBUG_INFO),
+        ("Exception",          EXCEPTION_DEBUG_INFO),
 #        ("CreateThread",      CREATE_THREAD_DEBUG_INFO),
 #        ("CreateProcessInfo", CREATE_PROCESS_DEBUG_INFO),
 #        ("ExitThread",        EXIT_THREAD_DEBUG_INFO),
@@ -163,54 +163,51 @@ class DEBUG_EVENT(Structure):
 
 # Used by the CONTEXT structure
 class FLOATING_SAVE_AREA(Structure):
-   _fields_ = [
-   
-        ("ControlWord", DWORD),
-        ("StatusWord", DWORD),
-        ("TagWord", DWORD),
-        ("ErrorOffset", DWORD),
+   _fields_ = [   
+        ("ControlWord",   DWORD),
+        ("StatusWord",    DWORD),
+        ("TagWord",       DWORD),
+        ("ErrorOffset",   DWORD),
         ("ErrorSelector", DWORD),
-        ("DataOffset", DWORD),
-        ("DataSelector", DWORD),
-        ("RegisterArea", BYTE * 80),
-        ("Cr0NpxState", DWORD),
+        ("DataOffset",    DWORD),
+        ("DataSelector",  DWORD),
+        ("RegisterArea",  BYTE * 80),
+        ("Cr0NpxState",   DWORD),
 ]
 
 # The CONTEXT structure which holds all of the 
 # register values after a GetThreadContext() call
 class CONTEXT(Structure):
-    _fields_ = [
-    
+    _fields_ = [    
         ("ContextFlags", DWORD),
-        ("Dr0", DWORD),
-        ("Dr1", DWORD),
-        ("Dr2", DWORD),
-        ("Dr3", DWORD),
-        ("Dr6", DWORD),
-        ("Dr7", DWORD),
-        ("FloatSave", FLOATING_SAVE_AREA),
-        ("SegGs", DWORD),
-        ("SegFs", DWORD),
-        ("SegEs", DWORD),
-        ("SegDs", DWORD),
-        ("Edi", DWORD),
-        ("Esi", DWORD),
-        ("Ebx", DWORD),
-        ("Edx", DWORD),
-        ("Ecx", DWORD),
-        ("Eax", DWORD),
-        ("Ebp", DWORD),
-        ("Eip", DWORD),
-        ("SegCs", DWORD),
-        ("EFlags", DWORD),
-        ("Esp", DWORD),
-        ("SegSs", DWORD),
+        ("Dr0",          DWORD),
+        ("Dr1",          DWORD),
+        ("Dr2",          DWORD),
+        ("Dr3",          DWORD),
+        ("Dr6",          DWORD),
+        ("Dr7",          DWORD),
+        ("FloatSave",    FLOATING_SAVE_AREA),
+        ("SegGs",        DWORD),
+        ("SegFs",        DWORD),
+        ("SegEs",        DWORD),
+        ("SegDs",        DWORD),
+        ("Edi",          DWORD),
+        ("Esi",          DWORD),
+        ("Ebx",          DWORD),
+        ("Edx",          DWORD),
+        ("Ecx",          DWORD),
+        ("Eax",          DWORD),
+        ("Ebp",          DWORD),
+        ("Eip",          DWORD),
+        ("SegCs",        DWORD),
+        ("EFlags",       DWORD),
+        ("Esp",          DWORD),
+        ("SegSs",        DWORD),
         ("ExtendedRegisters", BYTE * 512),
 ]
 
 # THREADENTRY32 contains information about a thread
 # we use this for enumerating all of the system threads
-
 class THREADENTRY32(Structure):
     _fields_ = [
         ("dwSize",             DWORD),
@@ -229,28 +226,28 @@ class PROC_STRUCT(Structure):
         ("wReserved",                 WORD),
 ]
 
-
 # Supporting union for the SYSTEM_INFO struct
 class SYSTEM_INFO_UNION(Union):
     _fields_ = [
         ("dwOemId",    DWORD),
         ("sProcStruc", PROC_STRUCT),
 ]
+    
 # SYSTEM_INFO structure is populated when a call to 
 # kernel32.GetSystemInfo() is made. We use the dwPageSize
 # member for size calculations when setting memory breakpoints
 class SYSTEM_INFO(Structure):
     _fields_ = [
-        ("uSysInfo", SYSTEM_INFO_UNION),
-        ("dwPageSize", DWORD),
+        ("uSysInfo",                    SYSTEM_INFO_UNION),
+        ("dwPageSize",                  DWORD),
         ("lpMinimumApplicationAddress", LPVOID),
         ("lpMaximumApplicationAddress", LPVOID),
-        ("dwActiveProcessorMask", DWORD),
-        ("dwNumberOfProcessors", DWORD),
-        ("dwProcessorType", DWORD),
-        ("dwAllocationGranularity", DWORD),
-        ("wProcessorLevel", WORD),
-        ("wProcessorRevision", WORD),
+        ("dwActiveProcessorMask",       DWORD),
+        ("dwNumberOfProcessors",        DWORD),
+        ("dwProcessorType",             DWORD),
+        ("dwAllocationGranularity",     DWORD),
+        ("wProcessorLevel",             WORD),
+        ("wProcessorRevision",          WORD),
 ]
 
 # MEMORY_BASIC_INFORMATION contains information about a 
@@ -258,12 +255,12 @@ class SYSTEM_INFO(Structure):
 # populates this structure.
 class MEMORY_BASIC_INFORMATION(Structure):
     _fields_ = [
-        ("BaseAddress", PVOID),
-        ("AllocationBase", PVOID),
+        ("BaseAddress",       PVOID),
+        ("AllocationBase",    PVOID),
         ("AllocationProtect", DWORD),
-        ("RegionSize", SIZE_T),
-        ("State", DWORD),
-        ("Protect", DWORD),
-        ("Type", DWORD),
+        ("RegionSize",        SIZE_T),
+        ("State",             DWORD),
+        ("Protect",           DWORD),
+        ("Type",              DWORD),
 ]
     
