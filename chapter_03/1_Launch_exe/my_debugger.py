@@ -14,7 +14,7 @@ class debugger():
     def load(self, path_to_exe):
         
         # Constant from my_debugger_defines
-        creation_flags = DEBUG_PROCESS
+        creation_flags = DEBUG_PROCESS               # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx
 
         # Structure from my_debugger_defines used for CreateProcessA()
         startupinfo = STARTUPINFO()                  # https://msdn.microsoft.com/en-us/library/ms686331.aspx
@@ -28,8 +28,8 @@ class debugger():
         # Initialize the cb variable in the STARTUPINFO struct which is just the size of the struct itself
         startupinfo.cb = sizeof(startupinfo)
  
-        # Launce path_to_exe using Widowns API
-        if kernel32.CreateProcessA(path_to_exe,   # https://msdn.microsoft.com/en-us/library/ms682425.aspx
+        # Creates a new process and its primary thread
+        if kernel32.CreateProcessA(path_to_exe,      # https://msdn.microsoft.com/en-us/library/ms682425.aspx
                                None,
                                None,
                                None,
