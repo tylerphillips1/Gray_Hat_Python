@@ -17,8 +17,8 @@ class debugger():
         creation_flags = DEBUG_PROCESS
 
         # Structure from my_debugger_defines used for CreateProcessA()
-        startupinfo = STARTUPINFO()                 # https://msdn.microsoft.com/en-us/library/ms686331.aspx
-        process_information = PROCESS_INFORMATION() # https://msdn.microsoft.com/en-us/library/ms684873(v=vs.85).aspx
+        startupinfo = STARTUPINFO()                  # https://msdn.microsoft.com/en-us/library/ms686331.aspx
+        process_information = PROCESS_INFORMATION()  # https://msdn.microsoft.com/en-us/library/ms684873(v=vs.85).aspx
  
         # The following two options allow the started process to be shown as a separate window. 
         # Illustrates different settings in the STARTUPINFO struct can affect the debuggee.
