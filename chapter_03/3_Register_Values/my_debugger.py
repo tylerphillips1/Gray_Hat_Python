@@ -15,13 +15,13 @@ class debugger():
 
     # Constructor for getting process ID
     def __init__(self):
-        self.h_process       =     None
-        self.pid             =     None
-        self.debugger_active =     False
-        self.h_thread        =     None
-        self.context         =     None
-        self.breakpoints     =     {}
-        self.first_breakpoint=     True
+        self.h_process            = None
+        self.pid                  = None
+        self.debugger_active      = False
+        self.h_thread             = None
+        self.context              = None
+        self.breakpoints          = {}
+        self.first_breakpoint     = True
         self.hardware_breakpoints = {}
         
         # Determine and store the default page size for the system and determine the system page size.
@@ -29,25 +29,22 @@ class debugger():
         kernel32.GetSystemInfo(byref(system_info))
         self.page_size = system_info.dwPageSize     # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
         
-        # TODO: test
         self.guarded_pages      = []
         self.memory_breakpoints = {}
-        
-    def load(self,path_to_exe):
+     
+    
+    def load(self, path_to_exe):
         
         # dwCreation flag determines how to create the process
-        # set creation_flags = CREATE_NEW_CONSOLE if you want
-        # to see the calculator GUI
+        # set creation_flags = CREATE_NEW_CONSOLE if you want to see the calculator GUI
         creation_flags = DEBUG_PROCESS
     
         # instantiate the structs
         startupinfo         = STARTUPINFO()
         process_information = PROCESS_INFORMATION()
         
-        # The following two options allow the started process
-        # to be shown as a separate window. This also illustrates
-        # how different settings in the STARTUPINFO struct can affect
-        # the debuggee.
+        # The following two options allow the started process to be shown as a separate window. 
+        # This also illustrates how different settings in the STARTUPINFO struct can affect the debuggee.
         startupinfo.dwFlags     = 0x1
         startupinfo.wShowWindow = 0x0
         
@@ -67,14 +64,16 @@ class debugger():
                                    byref(process_information)):
             
             print "[*] We have successfully launched the process!"
-            print "[*] The Process ID I have is: %d" % \
-                         process_information.dwProcessId
+            print "[*] The Process ID I have is: %d" % process_information.dwProcessId
+            
             self.pid = process_information.dwProcessId
-            self.h_process = self.open_process(self,process_information.dwProcessId)
+            self.h_process = self.open_process(self, process_information.dwProcessId)
             self.debugger_active = True
+        
         else:    
             print "[*] Error with error code %d." % kernel32.GetLastError()
 
+            
     def open_process(self,pid):
         
         # PROCESS_ALL_ACCESS = 0x0x001F0FFF
@@ -82,40 +81,40 @@ class debugger():
         
         return h_process
     
+    
     def attach(self,pid):
         
         self.h_process = self.open_process(pid)
         
-        # We attempt to attach to the process
-        # if this fails we exit the call
+        # We attempt to attach to the process if this fails we exit the call
         if kernel32.DebugActiveProcess(pid):
             self.debugger_active = True
             self.pid             = int(pid)
                                   
         else:
             print "[*] Unable to attach to the process."
-            
+        
+        
     def run(self):
         
-        # Now we have to poll the debuggee for 
-        # debugging events           
+        # Now we have to poll the debuggee for debugging events           
         while self.debugger_active == True:
             self.get_debug_event() 
+    
     
     def get_debug_event(self):
         
         debug_event    = DEBUG_EVENT()
         continue_status = DBG_CONTINUE
         
-        if kernel32.WaitForDebugEvent(byref(debug_event),100):
+        if kernel32.WaitForDebugEvent(byref(debug_event), 100):
             # grab various information with regards to the current exception.
             self.h_thread          = self.open_thread(debug_event.dwThreadId)
             self.context           = self.get_thread_context(h_thread=self.h_thread)
             self.debug_event       = debug_event
             
                        
-            print "Event Code: %d Thread ID: %d" % \
-                (debug_event.dwDebugEventCode,debug_event.dwThreadId)
+            print "Event Code: %d Thread ID: %d" % (debug_event.dwDebugEventCode, debug_event.dwThreadId)
             
             if debug_event.dwDebugEventCode == EXCEPTION_DEBUG_EVENT:
                 self.exception = debug_event.u.Exception.ExceptionRecord.ExceptionCode
@@ -144,6 +143,7 @@ class debugger():
             print "There was an error"
             return False
     
+    
     def open_thread (self, thread_id):
         
         h_thread = kernel32.OpenThread(THREAD_ALL_ACCESS, None, thread_id)
@@ -153,6 +153,7 @@ class debugger():
         else:
             print "[*] Could not obtain a valid thread handle."
             return False
+        
         
     def enumerate_threads(self):
               
@@ -164,7 +165,6 @@ class debugger():
         
             # You have to set the size of the struct or the call will fail
             thread_entry.dwSize = sizeof(thread_entry)
-
             success = kernel32.Thread32First(snapshot, byref(thread_entry))
 
             while success:
@@ -173,12 +173,12 @@ class debugger():
     
                 success = kernel32.Thread32Next(snapshot, byref(thread_entry))
             
-            # No need to explain this call, it closes handles
-            # so that we don't leak them.
+            # No need to explain this call, it closes handles so that we don't leak them.
             kernel32.CloseHandle(snapshot)
             return thread_list
         else:
             return False
+        
         
     def get_thread_context (self, thread_id=None,h_thread=None):
         
@@ -195,11 +195,9 @@ class debugger():
         else:
             return False
             
+            
     def exception_handler_breakpoint(self):
         
         print "[*] Exception address: 0x%08x" % self.exception_address
         return DBG_CONTINUE
     
-    
-            
-            
