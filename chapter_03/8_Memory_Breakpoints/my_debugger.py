@@ -1,13 +1,16 @@
-
 from ctypes import *
 from my_debugger_defines import *
 
 import sys
 import time
-kernel32 = windll.kernel32
+
+# 32-bit dynamic link library for Windows OS kernel
+kernel32 = windll.kernel32  # http://www.geoffchappell.com/studies/windows/win32/kernel32/api/
+
 
 class debugger():
 
+    # Debugger constructor
     def __init__(self):
         self.h_process       =     None
         self.pid             =     None
@@ -18,12 +21,10 @@ class debugger():
         self.first_breakpoint=     True
         self.hardware_breakpoints = {}
         
-        # Here let's determine and store 
-        # the default page size for the system
-        # determine the system page size.
-        system_info = SYSTEM_INFO()
+        # Determine and store the default page size for the system and the system page size.
+        system_info = SYSTEM_INFO()                 # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
         kernel32.GetSystemInfo(byref(system_info))
-        self.page_size = system_info.dwPageSize
+        self.page_size = system_info.dwPageSize     # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
         
         # TODO: test
         self.guarded_pages      = []
