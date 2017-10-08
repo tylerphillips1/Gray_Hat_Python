@@ -14,7 +14,7 @@ class debugger():
         self.h_process = None
         self.debugger_active = False
         process_information = PROCESS_INFORMATION()  # https://msdn.microsoft.com/en-us/library/ms684873(v=vs.85).aspx
-        self.pid = process_information.dwProcessId
+        self.pid = process_information.dwProcessId   # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
 
     # Creates a new process and its primary thread
     def load(self, path_to_exe):
@@ -27,8 +27,8 @@ class debugger():
         
         # The following two options allow the started process to be shown as a separate window. 
         # Illustrates different settings in the STARTUPINFO struct can affect the debuggee.
-        startupinfo.dwFlags = 0x1
-        startupinfo.wShowWindow = 0x0
+        startupinfo.dwFlags = 0x1                    # https://msdn.microsoft.com/en-us/library/windows/desktop/ms686331(v=vs.85).aspx
+        startupinfo.wShowWindow = 0x0                # https://msdn.microsoft.com/en-us/library/windows/desktop/ms633548(v=vs.85).aspx
         
         # Initialize the cb variable in the STARTUPINFO struct which is just the size of the struct itself
         startupinfo.cb = sizeof(startupinfo)
