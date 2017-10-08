@@ -3,8 +3,6 @@ from my_debugger_defines import *
 
 # 32-bit dynamic link library for Windows OS kernel       # http://www.geoffchappell.com/studies/windows/win32/kernel32/api/
 kernel32 = windll.kernel32
-PROCESS_ALL_ACCESS = (0x000F0000L | 0x00100000L | 0xFFF)  # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880(v=vs.85).aspx
-DEBUG_PROCESS = 0x00000001                                # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx
 
 
 class debugger():
