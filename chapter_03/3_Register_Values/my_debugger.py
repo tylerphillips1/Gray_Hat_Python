@@ -1,18 +1,19 @@
 from ctypes import *
 from my_debugger_defines import *
 
-from _subprocess import INFINITE
 from lib2to3.fixes.fix_input import context
 
 
+# 32-bit dynamic link library for Windows OS kernel       # http://www.geoffchappell.com/studies/windows/win32/kernel32/api/
 kernel32 = windll.kernel32
-PROCESS_ALL_ACCESS = (0x000F0000L | 0x00100000L | 0xFFF)
-THREAD_ALL_ACCESS = 0x001F03FF
-DEBUG_PROCESS = 0x00000001
+PROCESS_ALL_ACCESS = (0x000F0000L | 0x00100000L | 0xFFF)  # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880(v=vs.85).aspx
+THREAD_ALL_ACCESS = 0x001F03FF                            # https://msdn.microsoft.com/en-us/library/windows/desktop/ms686769(v=vs.85).aspx
+DEBUG_PROCESS = 0x00000001                                # https://msdn.microsoft.com/en-us/library/windows/desktop/ms684863(v=vs.85).aspx
 
 
 class debugger():
 
+    # Constructor for getting process ID
     def __init__(self):
         self.h_process       =     None
         self.pid             =     None
@@ -23,12 +24,10 @@ class debugger():
         self.first_breakpoint=     True
         self.hardware_breakpoints = {}
         
-        # Here let's determine and store 
-        # the default page size for the system
-        # determine the system page size.
-        system_info = SYSTEM_INFO()
+        # Determine and store the default page size for the system and determine the system page size.
+        system_info = SYSTEM_INFO()                 # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
         kernel32.GetSystemInfo(byref(system_info))
-        self.page_size = system_info.dwPageSize
+        self.page_size = system_info.dwPageSize     # https://msdn.microsoft.com/en-us/library/windows/desktop/ms724958(v=vs.85).aspx
         
         # TODO: test
         self.guarded_pages      = []
