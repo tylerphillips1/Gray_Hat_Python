@@ -192,14 +192,14 @@ class debugger():
         else:
             return False
     
-    def read_process_memory(self,address,length):
+    def read_process_memory(self,address,length):         
         
         data         = ""
         read_buf     = create_string_buffer(length)
         count        = c_ulong(0)
         
         
-        kernel32.ReadProcessMemory(self.h_process, address, read_buf, 5, byref(count))
+        kernel32.ReadProcessMemory(self.h_process, address, read_buf, 5, byref(count))  #https://msdn.microsoft.com/en-us/library/windows/desktop/ms680553(v=vs.85).aspx
         data    = read_buf.raw
         
         return data
@@ -212,7 +212,7 @@ class debugger():
         
         c_data = c_char_p(data[count.value:])
 
-        if not kernel32.WriteProcessMemory(self.h_process, address, c_data, length, byref(count)):
+        if not kernel32.WriteProcessMemory(self.h_process, address, c_data, length, byref(count)): #https://msdn.microsoft.com/en-us/library/windows/desktop/ms681674(v=vs.85).aspx
             return False
         else:
             return True
