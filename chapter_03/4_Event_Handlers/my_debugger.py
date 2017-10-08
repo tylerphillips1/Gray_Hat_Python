@@ -105,10 +105,11 @@ class debugger():
     
     def get_debug_event(self):
         
-        debug_event    = DEBUG_EVENT()
-        continue_status = DBG_CONTINUE
+        debug_event    = DEBUG_EVENT()  # https://msdn.microsoft.com/en-us/library/windows/desktop/ms679308(v=vs.85).aspx
+        continue_status = DBG_CONTINUE  # # Constant 0x00010002, defined by Windows
         
-        if kernel32.WaitForDebugEvent(byref(debug_event),100):
+        if kernel32.WaitForDebugEvent(byref(debug_event),100):  # https://msdn.microsoft.com/en-us/library/windows/desktop/ms681423(v=vs.85).aspx
+            
             # grab various information with regards to the current exception.
             self.h_thread          = self.open_thread(debug_event.dwThreadId)
             self.context           = self.get_thread_context(h_thread=self.h_thread)
