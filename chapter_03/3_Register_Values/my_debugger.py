@@ -156,14 +156,13 @@ class debugger():
         
     def enumerate_threads(self):
               
-        thread_entry     = THREADENTRY32()
-        thread_list      = []
-        snapshot         = kernel32.CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, self.pid)
+        thread_entry = THREADENTRY32()  # https://msdn.microsoft.com/en-us/library/windows/desktop/ms686735(v=vs.85).aspx
+        thread_list  = []
+        snapshot     = kernel32.CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, self.pid)
         
         if snapshot is not None:
         
-            # You have to set the size of the struct
-            # or the call will fail
+            # You have to set the size of the struct or the call will fail
             thread_entry.dwSize = sizeof(thread_entry)
 
             success = kernel32.Thread32First(snapshot, byref(thread_entry))
