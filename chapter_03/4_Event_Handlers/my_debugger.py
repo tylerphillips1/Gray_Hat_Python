@@ -1,15 +1,9 @@
 from ctypes import *
 from my_debugger_defines import *
 
-from _subprocess import INFINITE
 from lib2to3.fixes.fix_input import context
 
-
 kernel32 = windll.kernel32
-PROCESS_ALL_ACCESS = (0x000F0000L | 0x00100000L | 0xFFF)
-THREAD_ALL_ACCESS = 0x001F03FF
-DEBUG_PROCESS = 0x00000001
-
 
 class debugger():
 
