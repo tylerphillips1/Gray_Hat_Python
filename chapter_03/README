@@ -28,9 +28,15 @@ ones in parenthesis are line numbers in my_debugger.py
   8) Gets the events using get_debug_event() which utilizes 
      DEBUG_EVENT() from the Windows API
 
-5_Exception_Handler
+5_Exception_Handler:
+
 
 6_Software_Breakpoints:
+  5) Launches the debugger
+  7) Get process to attach to
+  9) Attach to the process
+  11) Gets the address of the printf function contained in msvcrt.dll
+  15) Sets the software breadkpoint at the address found in 11
 
 7_Hardware_Breakpoints:
 
