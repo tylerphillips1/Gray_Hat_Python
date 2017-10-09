@@ -22,7 +22,6 @@ class debugger():
         kernel32.GetSystemInfo(byref(system_info))
         self.page_size = system_info.dwPageSize
         
-        # TODO: test
         self.guarded_pages      = []
         self.memory_breakpoints = {}
         
