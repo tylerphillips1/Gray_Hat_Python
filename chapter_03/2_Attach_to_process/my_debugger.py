@@ -80,7 +80,7 @@ class debugger():
             raw_input("Press a key to continue...")
             
             self.debugger_active= False
-            kernel32.ContinueDebugEvent(\                             # https://msdn.microsoft.com/en-us/library/windows/desktop/ms679285(v=vs.85).aspx
+            kernel32.ContinueDebugEvent(\
                 debug_event.dwProcessId, \
                 debug_event.dwThreadId, \
                 continue_status)
