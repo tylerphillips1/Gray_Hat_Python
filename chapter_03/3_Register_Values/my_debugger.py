@@ -69,15 +69,14 @@ class debugger():
             print "[*] Error with error code %d." % kernel32.GetLastError()
 
             
-    def open_process(self,pid):
+    def open_process(self, pid):
         
-        # PROCESS_ALL_ACCESS = 0x0x001F0FFF
         h_process = kernel32.OpenProcess(PROCESS_ALL_ACCESS, False, pid) 
         
         return h_process
     
     
-    def attach(self,pid):
+    def attach(self, pid):
         
         self.h_process = self.open_process(pid)
         
@@ -112,7 +111,7 @@ class debugger():
             print "Event Code: %d Thread ID: %d" % (debug_event.dwDebugEventCode, debug_event.dwThreadId)
             
             if debug_event.dwDebugEventCode == EXCEPTION_DEBUG_EVENT:
-                self.exception = debug_event.u.Exception.ExceptionRecord.ExceptionCode
+                self.exception         = debug_event.u.Exception.ExceptionRecord.ExceptionCode
                 self.exception_address = debug_event.u.Exception.ExceptionRecord.ExceptionAddress
                 
                 # call the internal handler for the exception event that just occured.
