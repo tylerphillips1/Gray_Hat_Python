@@ -1,0 +1,43 @@
+This is a brief discription of what each debugger does.
+The numbers relate to the line number in my_test.py and 
+ones in parenthesis are line numbers in my_debugger.py
+
+1_Launch_exe:
+  4) Launches the debugger
+  7) Launches an application using CreateProcessA() from Windows API
+     and prints the process ID
+  
+2_attach_to_process:
+  3) Launches the debugger
+  5) Gets process ID from the user
+  7) Attach to the running process using attach() function
+  9) Detach from the running process
+
+3_Register_Values:
+  3) Launches the debugger
+  5) Gets process ID from the user
+  7) Attaches to the wanted running process 
+  9) Takes a "snapshot" of the registers valuse
+  11) Prints the register valuse
+  23) Deteach form running process
+
+4_Event_Handlers:
+  3) Launches the debugger
+  5) Gets process ID from the user
+  7) Attaches to the wanted process
+  8) Gets the events using get_debug_event() which utilizes 
+     DEBUG_EVENT() from the Windows API
+
+5_Exception_Handler:
+
+
+6_Software_Breakpoints:
+  5) Launches the debugger
+  7) Get process to attach to
+  9) Attach to the process
+  11) Gets the address of the printf function contained in msvcrt.dll
+  15) Sets the software breadkpoint at the address found in 11
+
+7_Hardware_Breakpoints:
+
+8_Memory_Breakpoints:
