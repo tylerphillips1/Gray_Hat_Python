@@ -1,7 +1,7 @@
 from ctypes import *
 from my_debugger_defines import *
 
-# 32-bit dynamic link library for Windows OS kernel       # http://www.geoffchappell.com/studies/windows/win32/kernel32/api/
+# 32-bit dynamic link library for Windows OS kernel
 kernel32 = windll.kernel32
 
 
