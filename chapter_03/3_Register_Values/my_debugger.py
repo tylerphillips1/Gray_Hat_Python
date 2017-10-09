@@ -77,7 +77,7 @@ class debugger():
     def open_process(self,pid):
         
         # PROCESS_ALL_ACCESS = 0x0x001F0FFF
-        h_process = kernel32.OpenProcess(PROCESS_ALL_ACCESS,False,pid) 
+        h_process = kernel32.OpenProcess(PROCESS_ALL_ACCESS, False, pid) 
         
         return h_process
     
@@ -104,14 +104,14 @@ class debugger():
     
     def get_debug_event(self):
         
-        debug_event    = DEBUG_EVENT()
+        debug_event     = DEBUG_EVENT()
         continue_status = DBG_CONTINUE
         
         if kernel32.WaitForDebugEvent(byref(debug_event), 100):
             # grab various information with regards to the current exception.
-            self.h_thread          = self.open_thread(debug_event.dwThreadId)
-            self.context           = self.get_thread_context(h_thread=self.h_thread)
-            self.debug_event       = debug_event
+            self.h_thread    = self.open_thread(debug_event.dwThreadId)
+            self.context     = self.get_thread_context(h_thread=self.h_thread)
+            self.debug_event = debug_event
             
                        
             print "Event Code: %d Thread ID: %d" % (debug_event.dwDebugEventCode, debug_event.dwThreadId)
@@ -129,8 +129,7 @@ class debugger():
                     print "Guard Page Access Detected."
                 elif self.exception == EXCEPTION_SINGLE_STEP:
                     self.exception_handler_single_step()
-                
-                
+                            
             kernel32.ContinueDebugEvent(debug_event.dwProcessId, debug_event.dwThreadId, continue_status)
 
             
@@ -161,8 +160,7 @@ class debugger():
         thread_list  = []
         snapshot     = kernel32.CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, self.pid)
         
-        if snapshot is not None:
-        
+        if snapshot is not None:      
             # You have to set the size of the struct or the call will fail
             thread_entry.dwSize = sizeof(thread_entry)
             success = kernel32.Thread32First(snapshot, byref(thread_entry))
