@@ -92,30 +92,32 @@ class debugger():
     
     def get_debug_event(self):
         
-        debug_event     = DEBUG_EVENT()
+        debug_event    = DEBUG_EVENT()
         continue_status = DBG_CONTINUE
         
-        if kernel32.WaitForDebugEvent(byref(debug_event), 100):
+        if kernel32.WaitForDebugEvent(byref(debug_event),100):
             # grab various information with regards to the current exception.
-            self.h_thread    = self.open_thread(debug_event.dwThreadId)
-            self.context     = self.get_thread_context(h_thread = self.h_thread)
-            self.debug_event = debug_event
+            self.h_thread          = self.open_thread(debug_event.dwThreadId)
+            self.context           = self.get_thread_context(h_thread=self.h_thread)
+            self.debug_event       = debug_event
             
-            print "Event Code: %d Thread ID: %d" % (debug_event.dwDebugEventCode, debug_event.dwThreadId)
+                       
+            print "Event Code: %d Thread ID: %d" % \
+                (debug_event.dwDebugEventCode,debug_event.dwThreadId)
             
             if debug_event.dwDebugEventCode == EXCEPTION_DEBUG_EVENT:
-                self.exception         = debug_event.u.Exception.ExceptionRecord.ExceptionCode
+                self.exception = debug_event.u.Exception.ExceptionRecord.ExceptionCode
                 self.exception_address = debug_event.u.Exception.ExceptionRecord.ExceptionAddress
                 
-            # call the internal handler for the exception event that just occured.
-            if self.exception == EXCEPTION_ACCESS_VIOLATION:
-                print "Access Violation Detected."
-            elif self.exception == EXCEPTION_BREAKPOINT:
-                continue_status = self.exception_handler_breakpoint()
-            elif self.exception == EXCEPTION_GUARD_PAGE:
-                print "Guard Page Access Detected."
-            elif self.exception == EXCEPTION_SINGLE_STEP:
-                self.exception_handler_single_step()
+                # call the internal handler for the exception event that just occured.
+                if self.exception == EXCEPTION_ACCESS_VIOLATION:
+                    print "Access Violation Detected."
+                elif self.exception == EXCEPTION_BREAKPOINT:
+                    continue_status = self.exception_handler_breakpoint()
+                elif self.exception == EXCEPTION_GUARD_PAGE:
+                    print "Guard Page Access Detected."
+                elif self.exception == EXCEPTION_SINGLE_STEP:
+                    self.exception_handler_single_step()
                 
             kernel32.ContinueDebugEvent(debug_event.dwProcessId, debug_event.dwThreadId, continue_status)
 
