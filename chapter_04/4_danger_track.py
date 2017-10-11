@@ -97,9 +97,9 @@ for func in dangerous_functions.keys():
     func_address = dbg.func_resolve( dangerous_functions[func],func )
     print "[*] Resolved breakpoint: %s -> 0x%08x" % ( func, func_address )
 
-    dbg.bp_set( func_address, handler = danger_handler )
-    dangerous_functions_resolved[func_address] = func
-    dbg.set_callback(EXCEPTION_ACCESS_VIOLATION, access_violation_handler )
-    dbg.set_callback(EXCEPTION_SINGLE_STEP, single_step_handler )
+dbg.bp_set( func_address, handler = danger_handler )
+dangerous_functions_resolved[func_address] = func
+dbg.set_callback(EXCEPTION_ACCESS_VIOLATION, access_violation_handler )
+dbg.set_callback(EXCEPTION_SINGLE_STEP, single_step_handler )
 
-    dbg.run()
+dbg.run()
