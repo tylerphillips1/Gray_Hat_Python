@@ -5,18 +5,21 @@ sys.path.append(".")
 sys.path.append("../PyCommands")
 
 def main(args):
+
     imm = Debugger()
+
     bad_char_found = False
     address  = 0
     length   = 0
+
     shellcode = ""
     shellcode_length = len(shellcode)
-    debug_shellcode = imm.readMemory(address, shellcode_length )
-    debug_shellcode = debug_shellcode.encode("HEX")
+    debug_shellcode  = imm.readMemory(address, shellcode_length )
+    debug_shellcode  = debug_shellcode.encode("HEX")
     
     canvas_shellcode = ""
-    id_shellcode = imm.readMemory( address, length )
-    id_shellcode = id_shellcode.encode("HEX")
+    id_shellcode     = imm.readMemory( address, length )
+    id_shellcode     = id_shellcode.encode("HEX")
     
     imm.log("Address: 0x%08x" % address)
     imm.log("Shellcode Length : %d" % shellcode_length)
@@ -24,6 +27,7 @@ def main(args):
     imm.log("In Memory Shellcode: %s" % id_shellcode[:512])
     
     count = 0
+
     while count <= shellcode_length:
         
         if debug_shellcode[count] != shellcode[count]:
